@@ -1,0 +1,49 @@
+CREATE TABLE nguoi_dung (
+    nguoi_dung_id INT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    mat_khau VARCHAR(255) NOT NULL,
+    ho_ten VARCHAR(255),
+    tuoi INT,
+    anh_dai_dien VARCHAR(255)
+);
+CREATE TABLE hinh_anh (
+    hinh_id INT PRIMARY KEY AUTO_INCREMENT,
+    ten_hinh VARCHAR(255),
+    duong_dan VARCHAR(255) NOT NULL,
+    mo_ta TEXT,
+    nguoi_dung_id INT,
+    FOREIGN KEY (nguoi_dung_id) REFERENCES nguoi_dung(nguoi_dung_id)
+);
+CREATE TABLE binh_luan (
+    binh_luan_id INT PRIMARY KEY AUTO_INCREMENT,
+    nguoi_dung_id INT,
+    hinh_id INT,
+    ngay_binh_luan DATE,
+    noi_dung TEXT,
+    FOREIGN KEY (nguoi_dung_id) REFERENCES nguoi_dung(nguoi_dung_id),
+    FOREIGN KEY (hinh_id) REFERENCES hinh_anh(hinh_id)
+);
+CREATE TABLE luu_anh (
+    nguoi_dung_id INT,
+    hinh_id INT,
+    ngay_luu DATE,
+    PRIMARY KEY (nguoi_dung_id, hinh_id),
+    FOREIGN KEY (nguoi_dung_id) REFERENCES nguoi_dung(nguoi_dung_id),
+    FOREIGN KEY (hinh_id) REFERENCES hinh_anh(hinh_id)
+);
+INSERT INTO nguoi_dung (email, mat_khau, ho_ten, tuoi, anh_dai_dien)
+VALUES 
+('user1@example.com', 'password1', 'Nguyen Van A', 25, 'user1_avatar.jpg'),
+('user2@example.com', 'password2', 'Le Thi B', 30, 'user2_avatar.jpg');
+INSERT INTO hinh_anh (ten_hinh, duong_dan, mo_ta, nguoi_dung_id)
+VALUES 
+('Hinh 1', '/images/hinh1.jpg', 'Mo ta hinh 1', 1),
+('Hinh 2', '/images/hinh2.jpg', 'Mo ta hinh 2', 2);
+INSERT INTO binh_luan (nguoi_dung_id, hinh_id, ngay_binh_luan, noi_dung)
+VALUES 
+(1, 1, '2024-01-01', 'Binh luan 1'),
+(2, 2, '2024-01-02', 'Binh luan 2');
+INSERT INTO luu_anh (nguoi_dung_id, hinh_id, ngay_luu)
+VALUES 
+(1, 1, '2024-01-01'),
+(2, 2, '2024-01-02');
